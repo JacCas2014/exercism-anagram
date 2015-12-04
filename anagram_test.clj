@@ -1,35 +1,33 @@
 (ns anagram-test
-  (:require [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
+            [midje.sweet :refer :all]
+            [anagram :refer :all]))
 
-(load-file "anagram.clj")
+(future-fact "no-matches"
+      (anagrams-for "diaper" ["hello" "world" "zombies" "pants"]) => [])
 
-(deftest no-matches
-  (is (= [] (anagram/anagrams-for "diaper" ["hello" "world" "zombies" "pants"]))))
+(future-fact "detect-simple-anagram"
+      (anagrams-for "ant" ["tan" "stand" "at"]) => ["tan"])
 
-(deftest detect-simple-anagram
-  (is (= ["tan"] (anagram/anagrams-for "ant" ["tan" "stand" "at"]))))
+(future-fact "does-not-confuse-different-duplicates"
+      (anagrams-for "galea" ["eagle"]) => [])
 
-(deftest does-not-confuse-different-duplicates
-  (is (= [] (anagram/anagrams-for "galea" ["eagle"]))))
+(future-fact "eliminate-anagram-subsets"
+      (anagrams-for "good" ["dog" "goody"]) => [])
 
-(deftest eliminate-anagram-subsets
-  (is (= [] (anagram/anagrams-for "good" ["dog" "goody"]))))
+(future-fact "detect-anagram"
+      (anagrams-for "listen" ["enlists" "google" "inlets" "banana"]) => ["inlets"])
 
-(deftest detect-anagram
-  (is (= ["inlets"] (anagram/anagrams-for "listen" ["enlists" "google" "inlets" "banana"]))))
+(future-fact "multiple-anagrams"
+      (anagrams-for "allergy" ["gallery" "ballerina" "regally" "clergy" "largely" "leading"]) => ["gallery" "regally" "largely"])
 
-(deftest multiple-anagrams
-  (is (= ["gallery" "regally" "largely"]
-         (anagram/anagrams-for "allergy" ["gallery" "ballerina" "regally" "clergy" "largely" "leading"]))))
+(future-fact "case-insensitive-anagrams"
+      (anagrams-for "Orchestra" ["cashregister" "Carthorse" "radishes"]) => ["Carthorse"])
 
-(deftest case-insensitive-anagrams
-  (is (= ["Carthorse"]
-         (anagram/anagrams-for "Orchestra" ["cashregister" "Carthorse" "radishes"]))))
+(future-fact "word-is-not-own-anagram"
+      (anagrams-for "banana" ["banana"]) => [])
 
-(deftest word-is-not-own-anagram
-  (is (= [] (anagram/anagrams-for "banana" ["banana"]))))
-
-(deftest capital-word-is-not-own-anagram
-  (is (= [] (anagram/anagrams-for "BANANA" ["banana"]))))
+(future-fact "capital-word-is-not-own-anagram"
+      (anagrams-for "BANANA" ["banana"]) => [])
 
 (run-tests)
