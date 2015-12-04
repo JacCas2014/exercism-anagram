@@ -6,28 +6,38 @@
 (fact "no-matches"
       (anagrams-for "diaper" ["hello" "world" "zombies" "pants"]) => [])
 
-(future-fact "detect-simple-anagram"
+(fact "detect-simple-anagram"
       (anagrams-for "ant" ["tan" "stand" "at"]) => ["tan"])
 
-(future-fact "does-not-confuse-different-duplicates"
+(fact "does-not-confuse-different-duplicates"
       (anagrams-for "galea" ["eagle"]) => [])
 
-(future-fact "eliminate-anagram-subsets"
+(fact "eliminate-anagram-subsets"
       (anagrams-for "good" ["dog" "goody"]) => [])
 
-(future-fact "detect-anagram"
+(fact "detect-anagram"
       (anagrams-for "listen" ["enlists" "google" "inlets" "banana"]) => ["inlets"])
 
-(future-fact "multiple-anagrams"
+(fact "multiple-anagrams"
       (anagrams-for "allergy" ["gallery" "ballerina" "regally" "clergy" "largely" "leading"]) => ["gallery" "regally" "largely"])
 
-(future-fact "case-insensitive-anagrams"
+(fact "case-insensitive-anagrams"
       (anagrams-for "Orchestra" ["cashregister" "Carthorse" "radishes"]) => ["Carthorse"])
 
-(future-fact "word-is-not-own-anagram"
+(fact "word-is-not-own-anagram"
       (anagrams-for "banana" ["banana"]) => [])
 
-(future-fact "capital-word-is-not-own-anagram"
+(fact "capital-word-is-not-own-anagram"
       (anagrams-for "BANANA" ["banana"]) => [])
 
-(run-tests)
+(facts "word-is-an-anagram?"
+       (fact "returns false when word is an exact match"
+             (word-is-an-anagram? "ant" "ant") => falsey)
+       (fact "returns true when word is an anagram"
+             (word-is-an-anagram? "ant" "tan") => truthy)
+       (fact "returns false when word is not an anagram"
+             (word-is-an-anagram? "ant" "can") => falsey)
+       (fact "returns false when word has an extra letter"
+             (word-is-an-anagram? "ant" "ants") => falsey)
+       (fact "returns false when word has a letter less"
+             (word-is-an-anagram? "ant" "an") => falsey))
