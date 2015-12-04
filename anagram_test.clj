@@ -3,7 +3,7 @@
             [midje.sweet :refer :all]
             [anagram :refer :all]))
 
-(future-fact "no-matches"
+(fact "no-matches"
       (anagrams-for "diaper" ["hello" "world" "zombies" "pants"]) => [])
 
 (future-fact "detect-simple-anagram"

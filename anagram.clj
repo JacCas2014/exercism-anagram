@@ -1,3 +1,4 @@
 (ns anagram)
 
-(defn anagrams-for [word possible-anagrams])
+(defn anagrams-for [word possible-anagrams]
+ [])
